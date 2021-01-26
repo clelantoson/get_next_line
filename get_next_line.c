@@ -15,26 +15,45 @@
 
 #define BUF_SIZE 10
 
+int check_eol(char *buf)
+{
+    int i;
+
+    i = 0;
+    while(buf[i])
+    {
+        if (buf[i] == '\n')
+            return (i);
+        i++;  
+    }
+    return (-1);
+}
+
 int get_next_line(int fd, char **line)
 {
-	char *buf;
-	static char *str[OPEN_MAX];
-	int retread;
+	char buf[BUF_SIZE + 1];
+	static char *str;
+	int size_read;
 
-	fd = open("prout", O_RDONLY);
+    (void)line;
+
 	// check if open() failed
-	if (fd < 0)
+	if (fd < 0 || line == 0)
 		return (-1);
 
-	while ((retread = read(fd, buf, BUF_SIZE)))
+	while ((size_read = read(fd, buf, BUF_SIZE)))
 	{
-		buf[retread] = '\0';
-		ft_putnbr(retread);
+		buf[size_read] = '\0';
+		ft_putnbr(size_read);
 		ft_putstr(buf);
+        if (check_eol(buf) >= 0)
+            break;
 	}
 
-return (0);
+return (1);
 }
+
+
 
 // int main()
 // {

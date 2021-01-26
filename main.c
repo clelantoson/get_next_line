@@ -10,6 +10,7 @@ int main()
 	{
 		printf("line = %s\n", line);
 	}
-	free(line);
+	printf("line = %s\n", line); //qd ca return 0 a l'eof
+	//free(line);
 	close(fd);
 }
