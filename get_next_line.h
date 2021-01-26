@@ -12,9 +12,12 @@ int		get_next_line(int fd, char **line);
 void	ft_putnbr(int n);
 void	ft_putstr(char *str);
 void	ft_putchar(char c);
+char	*ft_strdup(const char *s1);
+size_t	ft_strlen(const char *str);
+char		*ft_strjoin(char const *s1, char const *s2);
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 10
+#ifndef BUF_SIZE
+# define BUF_SIZE 8
 #endif
 
 #endif

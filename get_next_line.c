@@ -11,9 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-
-#define BUF_SIZE 10
+#include <stdio.h>  
 
 int check_eol(char *buf)
 {
@@ -23,9 +21,13 @@ int check_eol(char *buf)
     while(buf[i])
     {
         if (buf[i] == '\n')
+        {
+            printf("i = %d\n", i);
             return (i);
+        }
         i++;  
     }
+    printf("i = %d\n", i);
     return (-1);
 }
 
@@ -38,19 +40,33 @@ int get_next_line(int fd, char **line)
     (void)line;
 
 	// check if open() failed
-	if (fd < 0 || line == 0)
+	if (fd < 0 || !line)
+    {
+        printf("gnl erreur\n");
 		return (-1);
-
-	while ((size_read = read(fd, buf, BUF_SIZE)))
+    }
+    while ((size_read = read(fd, buf, BUF_SIZE)))
 	{
 		buf[size_read] = '\0';
-		ft_putnbr(size_read);
-		ft_putstr(buf);
-        if (check_eol(buf) >= 0)
+        printf("size_read = %d\n", size_read);
+        printf("buf = %s\n", buf);
+        if (!str)
+        {
+            str = ft_strdup(buf);
+            printf("gnl str1 = %s\n", str);
+        }
+        else if (str)
+        {
+            str = ft_strjoin(str, buf);
+            printf("gnl str2 = %s\n", str);
+        }
+        if (check_eol(str) >= 0)
             break;
 	}
 
-return (1);
+    //apres le break, fonction qui stocke la suite de buf dans la static (avec strjoin) si la static est pas null
+    
+return (0);
 }
 
 
