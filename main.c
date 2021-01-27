@@ -6,7 +6,7 @@ int main()
 	char *line;
 
 	fd = open("prout", O_RDONLY);
-	printf("open");
+	printf("0 - open success\n");
 	while(get_next_line(fd, &line))
 	{
 		printf("line = %s\n", line);

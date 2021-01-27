@@ -13,29 +13,45 @@
 #include "get_next_line.h"
 #include <stdio.h>  
 
-int check_eol(char *buf)
+char check_eol(char *str)
 {
     int i;
 
     i = 0;
-    while(buf[i])
+    while(str[i])
     {
-        if (buf[i] == '\n')
+        if (str[i] == '\n')
         {
-            printf("i = %d\n", i);
+            printf("eol found : i = %d\n", i);
             return (i);
         }
         i++;  
     }
-    printf("i = %d\n", i);
+    printf("oel not found within the str : i = %d\n", i);
     return (-1);
 }
+
+
+int ft_stock_in_line(char *str, int end_line)
+{
+    char *temp;
+    char *line;
+
+    str[end_line] = '\0';
+    while (str)
+    {
+        
+    }
+    return(*line)
+}   
+
 
 int get_next_line(int fd, char **line)
 {
 	char buf[BUF_SIZE + 1];
 	static char *str;
 	int size_read;
+    int end_line;
 
     (void)line;
 
@@ -48,24 +64,22 @@ int get_next_line(int fd, char **line)
     while ((size_read = read(fd, buf, BUF_SIZE)))
 	{
 		buf[size_read] = '\0';
-        printf("size_read = %d\n", size_read);
-        printf("buf = %s\n", buf);
-        if (!str)
+        printf("1 - size_read = %d\n", size_read);
+        printf("2 - buf = %s\n", buf);
+        if (!str) //on stocke dans str le buf a la premiere lecture
         {
             str = ft_strdup(buf);
-            printf("gnl str1 = %s\n", str);
+            printf("3.a - gnl str1 = %s\n", str);
         }
-        else if (str)
+        else if (str) //si la static est pas null, on stocke la suite de buf dans la static (avec strjoin) 
         {
             str = ft_strjoin(str, buf);
-            printf("gnl str2 = %s\n", str);
+            printf("3.b - gnl str2 = %s\n", str);
         }
-        if (check_eol(str) >= 0)
+        if (end_line = check_eol(str) >= 0) //on verifie si on trouve un eol dans la str qui a deja ete join
             break;
 	}
-
-    //apres le break, fonction qui stocke la suite de buf dans la static (avec strjoin) si la static est pas null
-    
+    *line = ft_put_in_line(str, &end_line);
 return (0);
 }
 
