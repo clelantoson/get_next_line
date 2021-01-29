@@ -6,12 +6,12 @@
 /*   By: cle-lan <cle-lan@42.student.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 14:40:49 by cle-lan           #+#    #+#             */
-/*   Updated: 2021/01/26 00:01:59 by cle-lan          ###   ########.fr       */
+/*   Updated: 2021/01/29 19:53:25 by cle-lan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>  
+#include <stdio.h>
 
 char check_eol(char *str)
 {
@@ -25,25 +25,25 @@ char check_eol(char *str)
             printf("eol found : i = %d\n", i);
             return (i);
         }
-        i++;  
+        i++;
     }
     printf("oel not found within the str : i = %d\n", i);
     return (-1);
 }
 
 
-int ft_stock_in_line(char *str, int end_line)
+void ft_stock_in_line(char *str, int idx_end_line, char **line)
 {
-    char *temp;
-    char *line;
+	int i;
 
-    str[end_line] = '\0';
-    while (str)
-    {
-        
-    }
-    return(*line)
-}   
+	i = 0;
+	printf("ft_stock_in_line - str = %s\n", str);
+	printf("ft_stock_in_line - idx_end_line = %d\n", idx_end_line);
+    str[idx_end_line] = '\0';
+	printf("ft_stock_in_line - str after 0 = %s\n", str);
+    *line = ft_strdup(str);
+	printf("ft_stock_in_line - line = %s\n", *line);
+}
 
 
 int get_next_line(int fd, char **line)
@@ -51,9 +51,7 @@ int get_next_line(int fd, char **line)
 	char buf[BUF_SIZE + 1];
 	static char *str;
 	int size_read;
-    int end_line;
-
-    (void)line;
+    int idx_end_line;
 
 	// check if open() failed
 	if (fd < 0 || !line)
@@ -71,15 +69,19 @@ int get_next_line(int fd, char **line)
             str = ft_strdup(buf);
             printf("3.a - gnl str1 = %s\n", str);
         }
-        else if (str) //si la static est pas null, on stocke la suite de buf dans la static (avec strjoin) 
+        else if (str) //si la static est pas null, on stocke la suite de buf dans la static (avec strjoin)
         {
             str = ft_strjoin(str, buf);
             printf("3.b - gnl str2 = %s\n", str);
         }
-        if (end_line = check_eol(str) >= 0) //on verifie si on trouve un eol dans la str qui a deja ete join
-            break;
+        if ((check_eol(str) >= 0)) //on verifie si on trouve un eol dans la str qui a deja ete join
+    	{
+			idx_end_line = check_eol(str);
+			printf("coucou idx_end_line %d\n", idx_end_line);
+			break;
+		}
 	}
-    *line = ft_put_in_line(str, &end_line);
+    ft_stock_in_line(str, idx_end_line, line);
 return (0);
 }
 
