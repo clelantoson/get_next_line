@@ -48,18 +48,19 @@ void ft_stock_in_line(char *str, int idx_end_line, char **line)
 
 int get_next_line(int fd, char **line)
 {
-	char buf[BUF_SIZE + 1];
+	char buf[BUFFER_SIZE + 1];
 	static char *str;
 	int size_read;
     int idx_end_line;
 
+    idx_end_line = 0;
 	// check if open() failed
 	if (fd < 0 || !line)
     {
         printf("gnl erreur\n");
 		return (-1);
     }
-    while ((size_read = read(fd, buf, BUF_SIZE)))
+    while ((size_read = read(fd, buf, BUFFER_SIZE)))
 	{
 		buf[size_read] = '\0';
         printf("1 - size_read = %d\n", size_read);
@@ -78,11 +79,12 @@ int get_next_line(int fd, char **line)
     	{
 			idx_end_line = check_eol(str);
 			printf("coucou idx_end_line %d\n", idx_end_line);
-			break;
+            ft_stock_in_line(str, idx_end_line, line); 
+            break;
 		}
-	}
-    ft_stock_in_line(str, idx_end_line, line);
-return (0);
+	} 
+    //ft_stock_in_line(str, idx_end_line, line);  
+return (1);
 }
 
 
