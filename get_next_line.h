@@ -7,6 +7,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <stdio.h>
+
 
 int		get_next_line(int fd, char **line);
 void	ft_putnbr(int n);

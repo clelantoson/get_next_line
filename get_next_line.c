@@ -6,7 +6,7 @@
 /*   By: cle-lan <cle-lan@42.student.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 14:40:49 by cle-lan           #+#    #+#             */
-/*   Updated: 2021/01/29 19:53:25 by cle-lan          ###   ########.fr       */
+/*   Updated: 2021/02/02 23:50:11 by cle-lan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,14 @@ char check_eol(char *str)
 
 int ft_stock_in_line(char *str, int idx_end_line, char **line)
 {
-	size_t len;
-    char *temp;
-
-    str[idx_end_line + 1] = '\0';  //a supprimer car je perds ce qui est apres \n, a moins de mettre dans un temp
+    // str[idx_end_line + 1] = '\0';  //a supprimer car je perds ce qui est apres \n, a moins de mettre dans un temp
 	printf("ft_stock_in_line - str after 0 = %s\n", str);
-    *line = ft_strdup(str);
-	printf("ft_stock_in_line - line = %s\n", *line);
-	len = ft_strlen(str) + idx_end_line + 1;
-    printf("ft_stock_in_line - len = %zu\n", len);
-	printf("ft_stock_in_line - str = %s\n", str);
-	printf("ft_stock_in_line - idx_end_line = %d\n", idx_end_line);
-    if (len == 0)
-    {
-        free(str);
-        str = 0;
-        return (1);
-    }
-    temp = ft_strdup(str + idx_end_line + 1);
-    free(str);
-    str = temp;
+    *line = ft_substr(str, 0, idx_end_line);
+	// printf("ft_stock_in_line - line = %s\n", *line);
+	// printf("ft_stock_in_line - str = %s\n", str);
+	// printf("ft_stock_in_line - idx_end_line = %d\n", idx_end_line);
+    str = ft_substr(str, idx_end_line + 1, ft_strlen(str));
+	printf("ft_stock_in_line - rest of str = %s\n", str);
     return (1);
 }
 
@@ -66,7 +54,7 @@ int get_next_line(int fd, char **line)
     int idx_end_line;
 
 	// check if open() failed
-	if (fd < 0 || !line)
+	if (fd < 0 || !line || BUFFER_SIZE <= 0)
     {
         printf("gnl erreur\n");
 		return (-1);
@@ -92,21 +80,21 @@ int get_next_line(int fd, char **line)
 			printf("coucou idx_end_line %d\n", idx_end_line);
             break;
 		}
-	} 
-   if (size_read == 0) 
+	}
+   if (size_read == 0)
     {
         printf("EOF - size_read == 0 = %d\n", size_read);
-        return (0); 
+        return (0);
     }
     else if (size_read < 0 && !str)
     {
         printf("ERROR - size_read < 0 = %d\n", size_read);
         return (-1);
     }
-    else 
+    else
     {
         printf("coucou je vais dans stock in line \n");
-        return (ft_stock_in_line(str, idx_end_line, line));  
+        return (ft_stock_in_line(str, idx_end_line, line));
     }
 }
 
