@@ -32,17 +32,29 @@ char check_eol(char *str)
 }
 
 
-void ft_stock_in_line(char *str, int idx_end_line, char **line)
+int ft_stock_in_line(char *str, int idx_end_line, char **line)
 {
-	int i;
+	size_t len;
+    char *temp;
 
-	i = 0;
-	printf("ft_stock_in_line - str = %s\n", str);
-	printf("ft_stock_in_line - idx_end_line = %d\n", idx_end_line);
-    str[idx_end_line] = '\0';
+    str[idx_end_line + 1] = '\0';  //a supprimer car je perds ce qui est apres \n, a moins de mettre dans un temp
 	printf("ft_stock_in_line - str after 0 = %s\n", str);
     *line = ft_strdup(str);
 	printf("ft_stock_in_line - line = %s\n", *line);
+	len = ft_strlen(str) + idx_end_line + 1;
+    printf("ft_stock_in_line - len = %zu\n", len);
+	printf("ft_stock_in_line - str = %s\n", str);
+	printf("ft_stock_in_line - idx_end_line = %d\n", idx_end_line);
+    if (len == 0)
+    {
+        free(str);
+        str = 0;
+        return (1);
+    }
+    temp = ft_strdup(str + idx_end_line + 1);
+    free(str);
+    str = temp;
+    return (1);
 }
 
 
@@ -53,14 +65,13 @@ int get_next_line(int fd, char **line)
 	int size_read;
     int idx_end_line;
 
-    idx_end_line = 0;
 	// check if open() failed
 	if (fd < 0 || !line)
     {
         printf("gnl erreur\n");
 		return (-1);
     }
-    while ((size_read = read(fd, buf, BUFFER_SIZE)))
+    while ((size_read = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[size_read] = '\0';
         printf("1 - size_read = %d\n", size_read);
@@ -70,7 +81,7 @@ int get_next_line(int fd, char **line)
             str = ft_strdup(buf);
             printf("3.a - gnl str1 = %s\n", str);
         }
-        else if (str) //si la static est pas null, on stocke la suite de buf dans la static (avec strjoin)
+        else //si la static est pas null, on stocke la suite de buf dans la static (avec strjoin)
         {
             str = ft_strjoin(str, buf);
             printf("3.b - gnl str2 = %s\n", str);
@@ -79,14 +90,38 @@ int get_next_line(int fd, char **line)
     	{
 			idx_end_line = check_eol(str);
 			printf("coucou idx_end_line %d\n", idx_end_line);
-            ft_stock_in_line(str, idx_end_line, line); 
             break;
 		}
 	} 
-    //ft_stock_in_line(str, idx_end_line, line);  
-return (1);
+   if (size_read == 0) 
+    {
+        printf("EOF - size_read == 0 = %d\n", size_read);
+        return (0); 
+    }
+    else if (size_read < 0 && !str)
+    {
+        printf("ERROR - size_read < 0 = %d\n", size_read);
+        return (-1);
+    }
+    else 
+    {
+        printf("coucou je vais dans stock in line \n");
+        return (ft_stock_in_line(str, idx_end_line, line));  
+    }
 }
 
+
+// Paramètres
+// #1. le file descriptor sur lequel lire
+// #2. La valeur de ce qui a été lu
+
+// 1 : Une ligne a été lue
+// 0 : La fin de fichier a été atteinte
+// -1 : Une erreur est survenue
+
+// Ecrivez une fonction qui retourne une ligne lue
+// depuis un file descriptor, sans le retour à la
+// ligne
 
 
 // int main()
@@ -115,16 +150,3 @@ return (1);
 //     }
 //     return (0);
 // }
-
-
-// Paramètres
-// #1. le file descriptor sur lequel lire
-// #2. La valeur de ce qui a été lu
-
-// 1 : Une ligne a été lue
-// 0 : La fin de fichier a été atteinte
-// -1 : Une erreur est survenue
-
-// Ecrivez une fonction qui retourne une ligne lue
-// depuis un file descriptor, sans le retour à la
-// ligne

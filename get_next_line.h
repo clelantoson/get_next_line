@@ -19,6 +19,7 @@ char		*ft_substr(char const *s, unsigned int start, size_t len);
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 8
+# define FD_SIZE 4096
 #endif
 
 #endif
