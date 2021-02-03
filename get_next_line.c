@@ -32,9 +32,10 @@ char check_eol(char *str)
 }
 
 
-int ft_stock_in_line(char *str, int idx_end_line, char **line)
+char *ft_stock_in_line(char *str, int idx_end_line, char **line)
 {
     // str[idx_end_line + 1] = '\0';  //a supprimer car je perds ce qui est apres \n, a moins de mettre dans un temp
+    //tant que i est inf a ma len
 	printf("ft_stock_in_line - str after 0 = %s\n", str);
     *line = ft_substr(str, 0, idx_end_line);
 	// printf("ft_stock_in_line - line = %s\n", *line);
@@ -42,7 +43,12 @@ int ft_stock_in_line(char *str, int idx_end_line, char **line)
 	// printf("ft_stock_in_line - idx_end_line = %d\n", idx_end_line);
     str = ft_substr(str, idx_end_line + 1, ft_strlen(str));
 	printf("ft_stock_in_line - rest of str = %s\n", str);
-    return (1);
+
+
+    //si i est == a len (qd jsuis arrive a la fin de ma str) 
+    //je stocke ce qui reste dans str dans line
+    //+ je mets str a NULL
+    return (str);
 }
 
 
@@ -62,8 +68,8 @@ int get_next_line(int fd, char **line)
     while ((size_read = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[size_read] = '\0';
-        printf("1 - size_read = %d\n", size_read);
-        printf("2 - buf = %s\n", buf);
+        //printf("1 - size_read = %d\n", size_read);
+        //printf("2 - buf = %s\n", buf);
         if (!str) //on stocke dans str le buf a la premiere lecture
         {
             str = ft_strdup(buf);
@@ -77,7 +83,7 @@ int get_next_line(int fd, char **line)
         if ((check_eol(str) >= 0)) //on verifie si on trouve un eol dans la str qui a deja ete join
     	{
 			idx_end_line = check_eol(str);
-			printf("coucou idx_end_line %d\n", idx_end_line);
+			printf("idx_end_line %d\n", idx_end_line);
             break;
 		}
 	}
@@ -91,11 +97,18 @@ int get_next_line(int fd, char **line)
         printf("ERROR - size_read < 0 = %d\n", size_read);
         return (-1);
     }
-    else
+    str = ft_stock_in_line(str, idx_end_line, line);
+    if (!str)
+    {
+        //printf("ERROR - size_read < 0 = %d\n", size_read);
+        return (0);
+    }
+    /*else
     {
         printf("coucou je vais dans stock in line \n");
         return (ft_stock_in_line(str, idx_end_line, line));
-    }
+    }*/
+    return (1);
 }
 
 
