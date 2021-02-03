@@ -31,24 +31,61 @@ char check_eol(char *str)
     return (-1);
 }
 
+// char	*ft_stock_in_line(char *str, char **line)
+// {
+// 	unsigned int	i;
+// 	//char			*temp;
+
+// 	i = 0;
+// 	while (str[i] != '\n' && str[i])
+// 		i++;
+// 	if (i < ft_strlen(str))
+// 	{
+//         printf("ft_stock_in_line - i = %d\n", i);
+// 		*line = ft_substr(str, 0, i);
+//         printf("ft_stock_in_line - line = %s\n", *line);
+// 		//temp = str;
+// 		str = ft_substr(str, i + 1, ft_strlen(str));
+//         printf("ft_stock_in_line - rest of str = %s\n", str);
+// 		//free(temp);
+// 	}
+// 	else
+// 	{
+// 		*line = str;
+// 		str = NULL;
+// 	}
+// 	return (str);
+// }
 
 char *ft_stock_in_line(char *str, int idx_end_line, char **line)
 {
-    // str[idx_end_line + 1] = '\0';  //a supprimer car je perds ce qui est apres \n, a moins de mettre dans un temp
-    //tant que i est inf a ma len
-	printf("ft_stock_in_line - str after 0 = %s\n", str);
-    *line = ft_substr(str, 0, idx_end_line);
-	// printf("ft_stock_in_line - line = %s\n", *line);
-	// printf("ft_stock_in_line - str = %s\n", str);
-	// printf("ft_stock_in_line - idx_end_line = %d\n", idx_end_line);
-    str = ft_substr(str, idx_end_line + 1, ft_strlen(str));
-	printf("ft_stock_in_line - rest of str = %s\n", str);
+    int len; 
 
+    len = ft_strlen(str);
+    printf("len = %d\n", len);
+     printf("idx_end_line = %d\n", idx_end_line);
+    if (idx_end_line < len) //tant que i est inf a ma len
+	{
 
-    //si i est == a len (qd jsuis arrive a la fin de ma str) 
+        printf("ft_stock_in_line - str before substr = %s\n", str);
+        *line = ft_substr(str, 0, idx_end_line);
+         printf("ft_stock_in_line - line after substr = %s\n", *line);
+         //printf("ft_stock_in_line - str after substr = %s\n", str);
+        // printf("ft_stock_in_line - idx_end_line = %d\n", idx_end_line);
+        str = ft_substr(str, idx_end_line + 1, ft_strlen(str));
+        printf("ft_stock_in_line - rest of str = %s\n", str);
+    }	
+    //printf("ft_stock_in_line - i = %d\n", i);
+    //if (i == ft_strlen(str)) //si i est == a len (qd jsuis arrive a la fin de ma str);
+    else
+    {   
+        *line = str;
+        printf("ft_stock_in_line - line eof = %s\n", *line);
+        str = NULL;
+    }
     //je stocke ce qui reste dans str dans line
     //+ je mets str a NULL
-    return (str);
+    return(str);
 }
 
 
@@ -87,12 +124,12 @@ int get_next_line(int fd, char **line)
             break;
 		}
 	}
-   if (size_read == 0)
-    {
-        printf("EOF - size_read == 0 = %d\n", size_read);
-        return (0);
-    }
-    else if (size_read < 0 && !str)
+    // if (size_read == 0)
+    //     {
+    //         printf("EOF - size_read == 0 = %d\n", size_read);
+    //         return (0);
+    //     }
+    if (size_read < 0 && !str)
     {
         printf("ERROR - size_read < 0 = %d\n", size_read);
         return (-1);
@@ -111,6 +148,25 @@ int get_next_line(int fd, char **line)
     return (1);
 }
 
+
+
+//    if (!str)
+//     { 
+//         printf("EOF - size_read == 0 = %d\n", size_read);
+//         *line = ft_strdup("");
+//         return (0);
+//     }
+//     else if (size_read < 0 && !str)
+//     {
+//         printf("ERROR - size_read < 0 = %d\n", size_read);
+//         return (-1);
+//     }
+//     else
+//     {
+//         str = ft_stock_in_line(str, idx_end_line, line);
+//         return (1);
+//     }      
+// }
 
 // Paramètres
 // #1. le file descriptor sur lequel lire
