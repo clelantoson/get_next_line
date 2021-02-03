@@ -6,7 +6,7 @@
 /*   By: cle-lan <cle-lan@42.student.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 14:40:49 by cle-lan           #+#    #+#             */
-/*   Updated: 2021/02/02 23:50:11 by cle-lan          ###   ########.fr       */
+/*   Updated: 2021/02/03 23:32:19 by cle-lan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,13 @@ char check_eol(char *str)
 
 char *ft_stock_in_line(char *str, int idx_end_line, char **line)
 {
-    int len; 
+    int len;
 
     len = ft_strlen(str);
     printf("len = %d\n", len);
      printf("idx_end_line = %d\n", idx_end_line);
+    while (str[idx_end_line] != '\n' && str[idx_end_line])
+		idx_end_line++;
     if (idx_end_line < len) //tant que i est inf a ma len
 	{
 
@@ -74,11 +76,11 @@ char *ft_stock_in_line(char *str, int idx_end_line, char **line)
         // printf("ft_stock_in_line - idx_end_line = %d\n", idx_end_line);
         str = ft_substr(str, idx_end_line + 1, ft_strlen(str));
         printf("ft_stock_in_line - rest of str = %s\n", str);
-    }	
+    }
     //printf("ft_stock_in_line - i = %d\n", i);
     //if (i == ft_strlen(str)) //si i est == a len (qd jsuis arrive a la fin de ma str);
     else
-    {   
+    {
         *line = str;
         printf("ft_stock_in_line - line eof = %s\n", *line);
         str = NULL;
@@ -151,7 +153,7 @@ int get_next_line(int fd, char **line)
 
 
 //    if (!str)
-//     { 
+//     {
 //         printf("EOF - size_read == 0 = %d\n", size_read);
 //         *line = ft_strdup("");
 //         return (0);
@@ -165,7 +167,7 @@ int get_next_line(int fd, char **line)
 //     {
 //         str = ft_stock_in_line(str, idx_end_line, line);
 //         return (1);
-//     }      
+//     }
 // }
 
 // Paramètres
