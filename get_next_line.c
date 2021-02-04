@@ -22,12 +22,12 @@ char check_eol(char *str)
     {
         if (str[i] == '\n')
         {
-            printf("eol found : i = %d\n", i);
+           // printf("eol found : i = %d\n", i);
             return (i);
         }
         i++;
     }
-    printf("oel not found within the str : i = %d\n", i);
+   // printf("oel not found within the str : i = %d\n", i);
     return (-1);
 }
 
@@ -62,27 +62,29 @@ char *ft_stock_in_line(char *str, int idx_end_line, char **line)
     int len;
 
     len = ft_strlen(str);
-    printf("len = %d\n", len);
+   // printf("len = %d\n", len);
      printf("idx_end_line = %d\n", idx_end_line);
     while (str[idx_end_line] != '\n' && str[idx_end_line])
 		idx_end_line++;
     if (idx_end_line < len) //tant que i est inf a ma len
 	{
-
-        printf("ft_stock_in_line - str before substr = %s\n", str);
+    printf("idx_end_line = %d\n", idx_end_line);
+    printf("len = %d\n", len);
+    printf("ft_stock_in_line - str before substr = %s\n", str);
         *line = ft_substr(str, 0, idx_end_line);
-         printf("ft_stock_in_line - line after substr = %s\n", *line);
+      //   printf("ft_stock_in_line - line after substr = %s\n", *line);
          //printf("ft_stock_in_line - str after substr = %s\n", str);
         // printf("ft_stock_in_line - idx_end_line = %d\n", idx_end_line);
         str = ft_substr(str, idx_end_line + 1, ft_strlen(str));
-        printf("ft_stock_in_line - rest of str = %s\n", str);
+      //  printf("ft_stock_in_line - rest of str = %s\n", str);
+       printf("idx_end_line = %d\n", idx_end_line);
     }
     //printf("ft_stock_in_line - i = %d\n", i);
     //if (i == ft_strlen(str)) //si i est == a len (qd jsuis arrive a la fin de ma str);
     else
     {
         *line = str;
-        printf("ft_stock_in_line - line eof = %s\n", *line);
+        //printf("ft_stock_in_line - line eof = %s\n", *line);
         str = NULL;
     }
     //je stocke ce qui reste dans str dans line
@@ -101,7 +103,7 @@ int get_next_line(int fd, char **line)
 	// check if open() failed
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
     {
-        printf("gnl erreur\n");
+      //  printf("gnl erreur\n");
 		return (-1);
     }
     while ((size_read = read(fd, buf, BUFFER_SIZE)) > 0)
@@ -112,19 +114,19 @@ int get_next_line(int fd, char **line)
         if (!str) //on stocke dans str le buf a la premiere lecture
         {
             str = ft_strdup(buf);
-            printf("3.a - gnl str1 = %s\n", str);
+         //   printf("3.a - gnl str1 = %s\n", str);
         }
         else //si la static est pas null, on stocke la suite de buf dans la static (avec strjoin)
         {
             str = ft_strjoin(str, buf);
-            printf("3.b - gnl str2 = %s\n", str);
+        //    printf("3.b - gnl str2 = %s\n", str);
         }
-        if ((check_eol(str) >= 0)) //on verifie si on trouve un eol dans la str qui a deja ete join
-    	{
-			idx_end_line = check_eol(str);
-			printf("idx_end_line %d\n", idx_end_line);
+        if (ft_strchr(str, '\n')) //on verifie si on trouve un eol dans la str qui a deja ete join
+    	
+			//idx_end_line = check_eol(str);
+			//printf("idx_end_line %d\n", idx_end_line);
             break;
-		}
+		
 	}
     // if (size_read == 0)
     //     {
@@ -133,13 +135,14 @@ int get_next_line(int fd, char **line)
     //     }
     if (size_read < 0 && !str)
     {
-        printf("ERROR - size_read < 0 = %d\n", size_read);
+     //   printf("ERROR - size_read < 0 = %d\n", size_read);
         return (-1);
     }
     str = ft_stock_in_line(str, idx_end_line, line);
     if (!str)
     {
         //printf("ERROR - size_read < 0 = %d\n", size_read);
+        *line = ft_strdup("");
         return (0);
     }
     /*else

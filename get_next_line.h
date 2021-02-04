@@ -19,6 +19,7 @@ size_t	ft_strlen(const char *str);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char    *ft_stock_in_line(char *str, int idx_end_line, char **line);
+char	*ft_strchr(const char *s, int c);
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 8
