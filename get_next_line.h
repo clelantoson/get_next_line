@@ -8,14 +8,14 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <dirent.h>
 
 
 int		get_next_line(int fd, char **line);
 char	*ft_strdup(const char *s1);
 int		ft_strlen(const char *str);
 char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_substr(char const *s, unsigned int start, int len);
-//char    *ft_stock_in_line(char *str, int idx_end_line, char **line);
+char	*ft_substr(char const *s, int start, int len);
 char	*ft_strchr(const char *s, int c);
 char	*stock_line(char *str, char **line);
 

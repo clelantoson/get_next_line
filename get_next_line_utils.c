@@ -53,7 +53,7 @@ char		*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-char		*ft_substr(char const *s, unsigned int start, int len)
+char		*ft_substr(char const *s, int start, int len)
 {
 	int	i;
 	char	*str;
@@ -61,14 +61,13 @@ char		*ft_substr(char const *s, unsigned int start, int len)
 	i = 0;
 	if (s == NULL)
 		return (NULL);
-	// if (start >= ft_strlen(s))
-	// {
-	// printf("rentre dedans\n");
-	// 	if (!(str = (char *)malloc(sizeof(char) * 1)))
-	// 		return (NULL);
-	// 	str[0] = '\0';
-	// 	return (str);
-	// }
+	if (start >= ft_strlen(s))
+	{
+		if (!(str = (char *)malloc(sizeof(char) * 1)))
+			return (NULL);
+		str[0] = '\0';
+		return (str);
+	}
 	if (!(str = (char *)malloc(sizeof(char) * (len + 1))))
 		return (NULL);
 	while (s[i] && i < len)
@@ -86,13 +85,14 @@ char	*ft_strchr(const char *s, int c)
 	int i;
 
 	i = 0;
-	while (s[i])
-	{
-		if (s[i] == c)
-			return ((char *)s + i);
+	while (s[i] != (char)c && s[i] != 0)
 		i++;
-	}
-	if (s[i] == '\0' && c == '\0')
+	if (s[i] == (char)c)
+	{
 		return ((char *)s + i);
-	return (NULL);
+	}
+	else
+	{
+		return (NULL);
+	}
 }
