@@ -6,7 +6,7 @@
 /*   By: cle-lan <cle-lan@42.student.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 14:40:49 by cle-lan           #+#    #+#             */
-/*   Updated: 2021/02/05 01:48:23 by cle-lan          ###   ########.fr       */
+/*   Updated: 2021/02/05 01:33:49 by cle-lan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,16 @@ char check_eol(char *str)
     return (-1);
 }
 
-char	*stock_line(char *str, char **line)
+char	*stock_line(char *str, int idx_end_line, char **line)
 {
-    int idx;
+	//int		idx_end_line;
 
-    idx = 0;
-	while (str[idx] && str[idx] != '\n')
-		idx++;
-	if (idx < ft_strlen(str))
+	while (str[idx_end_line] && str[idx_end_line] != '\n')
+		idx_end_line++;
+	if (idx_end_line < ft_strlen(str))
 	{
-		*line = ft_substr(str, 0, idx);
-		str = ft_substr(str, idx + 1, ft_strlen(str));
+		*line = ft_substr(str, 0, idx_end_line);
+		str = ft_substr(str, idx_end_line + 1, ft_strlen(str));
 	}
 	else
 	{
@@ -96,7 +95,7 @@ char	*stock_line(char *str, char **line)
     int idx_end_line;
 
 	// check if open() failed
-	if (fd < 0 || !line || BUFFER_SIZE <= 0)
+	if ((fd < 0 || !line || BUFFER_SIZE <= 0))
 		return (-1);
     while ((size_read = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
@@ -124,7 +123,7 @@ char	*stock_line(char *str, char **line)
         }
 	}
     if (str)
-        str = stock_line(str,line);
+        str = stock_line(str,idx_end_line, line);
     else
     {
         //printf("ERROR - size_read < 0 = %d\n", size_read);

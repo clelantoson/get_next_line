@@ -1,37 +1,5 @@
 #include "get_next_line.h"
 
-void ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-void ft_putstr(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		ft_putchar(str[i]);
-		i++;
-	}
-}
-
-void	ft_putnbr(int n)
-{
-	unsigned int bignum;
-
-	bignum = n;
-	if (n < 0)
-	{
-		bignum = -bignum;
-		ft_putchar('-');
-	}
-	if (bignum >= 10)
-		ft_putnbr(bignum / 10);
-	ft_putchar(bignum % 10 + '0');
-}
-
 char		*ft_strdup(const char *s1)
 {
 	int		i;
@@ -50,9 +18,9 @@ char		*ft_strdup(const char *s1)
 	return (dest);
 }
 
-size_t	ft_strlen(const char *str)
+int	ft_strlen(const char *str)
 {
-	size_t i;
+	int i;
 
 	i = 0;
 	while (str[i])
@@ -85,9 +53,9 @@ char		*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-char		*ft_substr(char const *s, unsigned int start, size_t len)
+char		*ft_substr(char const *s, unsigned int start, int len)
 {
-	size_t	i;
+	int	i;
 	char	*str;
 
 	i = 0;
