@@ -50,25 +50,99 @@ int main()
 	close(fd);
 }
 
-// int	main(void) {
-// 	int		fd = -1;
-// 	char	*line =	NULL;
-// 	int		ret;
 
-// 	/* open file - if an error occurs here, the test will be ignored, that's not your fault ! */
-// 	if ((fd = open("prout", O_RDONLY)) == -1 || read(fd, NULL, 0) == -1) {
-// 		printf("fail\n");
-// 		return (-1);
-// 	}
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-// 	ret = get_next_line(fd, &line);
-// 	printf("%s\n", line);
-// 	printf("return value: %d\n", ret);
+int				get_next_line(int fd, char **line);
 
-// 	/* cleaning up */
-// 	free(line);
-// 	line = NULL;
-// 	close(fd);
-// printf("succces\n"); //qd ca return 0 a l'eof
-// 	return (0);
-// }
+int main()
+{
+	int		fd;
+	int		i;
+	int		j;
+	char	*line = 0;
+
+	j = 1;
+	printf("\n==========================================\n");
+	printf("========== TEST 1 : The Alphabet =========\n");
+	printf("==========================================\n\n");
+
+	if (!(fd = open("files/huge_alphabet", O_RDONLY)))
+	{
+		printf("\nError in open\n");
+		return (0);
+	}
+	while ((i = get_next_line(fd, &line)) > 0)
+	{
+		printf("|%s\n", line);
+		free(line);
+		j++;
+	}
+	printf("|%s\n", line);
+	free(line);
+	close(fd);
+
+	if (i == -1)
+		printf ("\nError in Fonction - Returned -1\n");
+	else if (j == 1056)
+		printf("\nRight number of lines\n");
+	else if (j != 1056)
+		printf("\nNot Good - Wrong Number Of Lines\n");
+	j = 1;
+	printf("\n==========================================\n");
+	printf("========= TEST 8 : SUPER FAT FILE ========\n");
+	printf("==========================================\n\n");
+
+	if (!(fd = open("files/huge_file", O_RDONLY)))
+	{
+		printf("\nError in open\n");
+		return (0);
+	}
+	while ((i = get_next_line(fd, &line)) > 0)
+	{
+		printf("|%s\n", line);
+		free(line);
+		j++;
+	}
+	printf("|%s\n", line);
+	free(line);
+	close(fd);
+
+	if (i == -1)
+		printf ("\nError in Fonction - Returned -1\n");
+	else if (j == 2916)
+		printf("\nRight number of lines\n");
+	else if (j != 2916)
+		printf("\nNot Good - Wrong Number Of Lines\n");
+	j = 1;
+	printf("\n==========================================\n");
+	printf("======== TEST 8 : SUPER LONG LINE ========\n");
+	printf("==========================================\n\n");
+
+	if (!(fd = open("files/huge_line", O_RDONLY)))
+	{
+		printf("\nError in open\n");
+		return (0);
+	}
+	while ((i = get_next_line(fd, &line)) > 0)
+	{
+		printf("%s\n", line);
+		free(line);
+		j++;
+	}
+	printf("%s\n", line);
+	free(line);
+	close(fd);
+
+	if (i == -1)
+		printf ("\nError in Fonction - Returned -1\n\n");
+	else if (j == 1)
+		printf("\nRight number of lines\n\n");
+	else if (j != 1)
+		printf("\nNot Good - Wrong Number Of Lines\n\n");
+	return (0);
+}
