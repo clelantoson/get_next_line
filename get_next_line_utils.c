@@ -39,7 +39,7 @@ char		*ft_strjoin(char const *s1, char const *s2)
 	j = 0;
 	if (!s1 || !s2)
 		return (NULL);
-	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	str = (char *)malloc(sizeof(*s1) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (str == NULL)
 		return (NULL);
 	while (s1[i])
@@ -61,7 +61,7 @@ char		*ft_substr(char *s, unsigned int start, size_t len)
 	i = 0;
 	if (s == NULL)
 		return (NULL);
-	if (!(str = (char *)malloc(sizeof(char) * (len + 1))))
+	if (!(str = (char *)malloc(sizeof(*s) * (len + 1))))
 		return (NULL);
 	while (s[i + start] && i < len)
 	{
